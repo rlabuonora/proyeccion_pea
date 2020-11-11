@@ -2,7 +2,7 @@
 # las proyecciones de poblacion
 # que nos paso BPS
 
-
+library(tidyquant)
 library(readxl)
 
 mujeres <- read_xlsx(

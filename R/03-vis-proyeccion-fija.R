@@ -1,6 +1,12 @@
 library(tidyverse)
 library(lubridate)
 
+theme_set(theme_minimal(base_size = 8) +
+            theme(
+              plot.title = element_text(hjust=.5),
+              plot.subtitle = element_text(hjust=.5)
+            ))
+
 
 forecast_tasas_fijas <- readRDS(here::here('data', 'forecast_tasa_fija.rds'))
 

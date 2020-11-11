@@ -1,5 +1,10 @@
 library(tidyverse)
 
+theme_set(theme_minimal(base_size = 8) +
+            theme(
+              plot.title = element_text(hjust=.5),
+              plot.subtitle = element_text(hjust=.5)
+            ))
 
 convergencia_tasas_modelo <- readRDS(here::here('data', 'forecast_tasas_modelo.rds'))
 

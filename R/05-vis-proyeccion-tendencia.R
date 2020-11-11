@@ -1,5 +1,12 @@
 
 
+theme_set(theme_minimal(base_size = 8) +
+            theme(
+              plot.title = element_text(hjust=.5),
+              plot.subtitle = element_text(hjust=.5)
+              
+            ))
+
 tidy_forecast_rw <- readRDS(here::here('data', 'forecast_tendencia.rds'))
 
 

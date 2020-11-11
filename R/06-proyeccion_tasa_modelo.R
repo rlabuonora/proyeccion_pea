@@ -5,12 +5,6 @@ library(timetk)
 library(sweep)
 library(lubridate)
 
-theme_set(theme_minimal(base_size = 8) +
-            theme(
-              plot.title = element_text(hjust=.5)
-            ))
-
-
 df <- readRDS(here::here('data', 'tasas_tramo_edad.rds'))
 
 
@@ -46,9 +40,14 @@ convergencia_tasas_modelo <- bind_rows(tasas_uruguay, vacio, tasas_modelo) %>%
 
 
 # Salvar proyeccion
-convergencia_tasas_modelo %>%
+forecast_tasas_modelo <- convergencia_tasas_modelo %>%
   mutate(key= if_else(year(year) > 2020, "forecast", "actual"),
          tasa = ip.value) %>%
-  select(-ip.value) %>% 
-  saveRDS(here::here('data', 'forecast_tasas_modelo.rds'))
+  select(-ip.value, -time)
+
+saveRDS(forecast_tasas_modelo, here::here('data', 'forecast_tasas_modelo.rds'))
+
+# Salvarlo para ver
+# writexl::write_xlsx(forecast_tasas_modelo, 
+#                     here::here("output", "forecast_tasas_modelo.xlsx"))
 
