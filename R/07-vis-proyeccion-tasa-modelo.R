@@ -20,13 +20,13 @@ convergencia_tasas_modelo_df %>%
   scale_color_manual(name = "", values = c("gray30", "#d95f0e")) +
   geom_point(show.legend = FALSE, size = 1, 
              data = filter(convergencia_tasas_modelo, 
-                           year(year) %in% c(2090))) + 
+                           year(year) %in% c(2100))) + 
   geom_text(aes(y = y_pos, 
                 label = scales::percent_format(scale=1, accuracy=.1)(tasa)),
             size = 2, 
             nudge_x = -1000,
             show.legend = FALSE, 
-            data = filter(convergencia_tasas_modelo_df, year(year) %in% c(2090))) + 
+            data = filter(convergencia_tasas_modelo_df, year(year) %in% c(2100))) + 
   geom_line(aes(y=tasa, linetype=key)) + 
   facet_wrap(~tramo) +
   guides(linetype=FALSE) +

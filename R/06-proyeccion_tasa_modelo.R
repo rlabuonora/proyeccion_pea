@@ -17,7 +17,7 @@ tasas_uruguay <- df %>%
 
 vacio <- expand_grid(
   sexo = c("Hombres", "Mujeres"),
-  year = 2021:2089,
+  year = 2021:2099,
   tramo = c("15-19", "20-24", "25-29", "30-34", 
             "35-39", "40-44", "45-49", "50-54", 
             "55-59", "60-64", "65+")
@@ -26,11 +26,17 @@ vacio <- expand_grid(
   mutate(tasa = NA)
 
 # Tasas Modelo
-tasas_modelo <- df %>% 
-  filter(pais == "Portugal", year(year) == 2020) %>% 
-  mutate(year = as.Date(as.yearmon(2090))) %>% 
-  select(-pais)
+# tasas_modelo <- df %>%
+#   filter(pais == "Portugal", year(year) == 2019) %>%
+#   mutate(year = as.Date(as.yearmon(2100))) %>%
+#   select(-pais)
 
+tasas_modelo <- df %>%
+  filter(rojos, year(year) == 2020) %>%
+  group_by(sexo, tramo) %>%
+  summarize(tasa = mean(tasa)) %>%
+  mutate(year = as.Date(as.yearmon(2100))) %>%
+  ungroup()
 
 # Interpolar
 convergencia_tasas_modelo <- bind_rows(tasas_uruguay, vacio, tasas_modelo) %>% 
