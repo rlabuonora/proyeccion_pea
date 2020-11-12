@@ -77,7 +77,7 @@ brecha %>%
   labs(title="Cierre de Brecha Proyectada (2020-2100)", 
        y="",
        x="Año",
-       caption="La diferencia entre tasas de actividad de Masculina y Femenina")
+       caption="La diferencia entre tasas de actividad Masculina y Femenina")
   
 ggsave(here::here('output', 'proyecciones', 'proyeccion_pea_cierre_brecha.png'))
 
@@ -85,8 +85,8 @@ ggsave(here::here('output', 'proyecciones', 'proyeccion_pea_cierre_brecha.png'))
 pea_proyectada <- df %>% 
   select(-rojos) %>% 
   group_by(`Año`=year) %>% 
-  summarize(PEA=sum(pea),
-            PET=sum(pob))
+  summarize(PEA=round(sum(pea)),
+            PET=round(sum(pob)))
 
 writexl::write_xlsx(pea_proyectada, here::here('output', 'proyecciones', 'proyeccion_pea_total.xlsx'))
 
@@ -105,7 +105,7 @@ ggsave(here::here('output', 'proyecciones', 'proyeccion_pea_proyectada.png'))
 pea_proyectada_por_sexo <- df %>% 
   select(-rojos) %>% 
   group_by(`Año`=year, sexo) %>% 
-  summarize(pea=sum(pea)) %>% 
+  summarize(pea=round(sum(pea))) %>% 
   pivot_wider(names_from=sexo, values_from=pea, names_prefix="PEA_") %>% 
   mutate(PEA_total = PEA_Hombres+PEA_Mujeres)
 

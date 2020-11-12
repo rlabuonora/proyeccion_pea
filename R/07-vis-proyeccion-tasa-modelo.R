@@ -34,5 +34,5 @@ convergencia_tasas_modelo_df %>%
        x="Año", y = "Tasa", caption="Fuente: OIT")
 
 
-ggsave(here::here('output', 'forecast_tasas_modelo.png'), width = 7)
+ggsave(here::here('output', 'proyecciones', 'forecast_tasas_modelo.png'), width = 7)
 
