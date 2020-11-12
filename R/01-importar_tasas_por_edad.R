@@ -3,13 +3,18 @@ library(lubridate)
 
 ROJOS <- c("Czechia", "Greece", "Serbia", "Ukraine", 
            "Montenegro", "Slovakia", "Russian Federation", 
-           "Albania", "Mongolia", "Singapore", "Cape Verde", 
-           "Viet Nam", "Bulgaria", "Estonia", "Jamaica", 
-           "Ireland", "Latvia", "United States", "Nigeria", 
+           #"Albania", "Mongolia", 
+           "Singapore", 
+           #"Cape Verde", 
+           "Viet Nam", "Bulgaria", "Estonia", 
+           #"Jamaica", 
+           "Ireland", "Latvia", "United States", 
+           #"Nigeria", 
            "Cyprus", "Austria", "Germany", "Spain", "Switzerland", 
            "Lithuania", "Australia", "Netherlands",
            "Slovenia", "United Kingdom", "Portugal", 
-           "Luxembourg", "Canada", "Israel", "Finland", 
+           "Luxembourg", 
+           "Canada", "Israel", "Finland", 
            "Norway", "Denmark")
 
 # Importar datos OIT

@@ -27,7 +27,7 @@ vacio <- expand_grid(
 
 # Tasas Modelo
 # tasas_modelo <- df %>%
-#   filter(pais == "Portugal", year(year) == 2019) %>%
+#   filter(pais == "Uruguay", year(year) == 2019) %>%
 #   mutate(year = as.Date(as.yearmon(2100))) %>%
 #   select(-pais)
 
@@ -37,6 +37,11 @@ tasas_modelo <- df %>%
   summarize(tasa = mean(tasa)) %>%
   mutate(year = as.Date(as.yearmon(2100))) %>%
   ungroup()
+
+writexl::write_xlsx(tasas_modelo, 
+                      here::here('output', 'proyecciones', 'tasas_modelo.xlsx'))
+
+
 
 # Interpolar
 convergencia_tasas_modelo <- bind_rows(tasas_uruguay, vacio, tasas_modelo) %>% 
@@ -52,8 +57,4 @@ forecast_tasas_modelo <- convergencia_tasas_modelo %>%
   select(-ip.value, -time)
 
 saveRDS(forecast_tasas_modelo, here::here('data', 'forecast_tasas_modelo.rds'))
-
-# Salvarlo para ver
-# writexl::write_xlsx(forecast_tasas_modelo, 
-#                     here::here("output", "forecast_tasas_modelo.xlsx"))
 

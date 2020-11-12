@@ -46,7 +46,7 @@ df %>%
   mutate(tasa_global=pea/pet)
 
 df %>% 
-  filter(year(year) == 2100) %>%
+  filter(year(year) == 2100) %>% 
   group_by(sexo) %>% 
   summarize(pea = sum(pea),
             pet = sum(pob),
