@@ -11,8 +11,8 @@ df <- readRDS(here::here('data', 'tasas_tramo_edad.rds'))
 tasas_uruguay <- df %>% 
   filter(pais == "Uruguay") %>% 
   select(-pais)
-  # Sacar 65+ recientes
-  #filter(! (tramo == "Age (5-year bands): 65+" & year(year) > 2004)) %>% 
+# Sacar 65+ recientes
+#filter(! (tramo == "Age (5-year bands): 65+" & year(year) > 2004)) %>% 
 
 
 vacio <- expand_grid(
@@ -26,20 +26,39 @@ vacio <- expand_grid(
   mutate(tasa = NA)
 
 # Tasas Modelo
-# tasas_modelo <- df %>%
-#   filter(pais == "Uruguay", year(year) == 2019) %>%
-#   mutate(year = as.Date(as.yearmon(2100))) %>%
-#   select(-pais)
 
-tasas_modelo <- df %>%
+# Tasas Uruguay
+tasas_uy <- df %>%
+  filter(pais == "Uruguay", year(year) == 2019) %>%
+  mutate(tasa_uy = tasa, year = as.Date(as.yearmon(2100))) %>%
+  select(-pais, -rojos, -tasa)
+
+# Tasas Rojos
+tasas_rojos <- df %>%
   filter(rojos, year(year) == 2020) %>%
   group_by(sexo, tramo) %>%
-  summarize(tasa = mean(tasa)) %>%
+  summarize(tasa_modelo = mean(tasa)) %>%
   mutate(year = as.Date(as.yearmon(2100))) %>%
   ungroup()
 
+# Mezclarlas (tomo las mujeres de los rojos y los hombres de Uruguay)
+tasas_modelo <- tasas_rojos %>% 
+  inner_join(tasas_uy) %>% 
+  mutate(tasa = case_when(
+    tramo %in% c("15-19") ~ tasa_uy,
+    #tramo %in% c("65+") ~ tasa_modelo,
+    sexo == "Mujeres" ~ tasa_modelo,
+    TRUE ~ tasa_uy, 
+  )) %>% 
+  select(sexo, tramo, year, tasa)
+
+# tasas_modelo <- tasas_rojos %>% 
+#   rename(tasa = tasa_modelo)
+# Tasas modelo solo para las mujeres
+#tasas_modelo <- tasas_rojos
+
 writexl::write_xlsx(tasas_modelo, 
-                      here::here('output', 'proyecciones', 'tasas_modelo.xlsx'))
+                    here::here('output', 'proyecciones', 'tasas_modelo.xlsx'))
 
 
 
@@ -47,7 +66,7 @@ writexl::write_xlsx(tasas_modelo,
 convergencia_tasas_modelo <- bind_rows(tasas_uruguay, vacio, tasas_modelo) %>% 
   group_by(sexo, tramo) %>% 
   mutate(time=seq(1:n())) %>%
-  mutate(ip.value = spline(time, tasa, n=n())$y)
+  mutate(ip.value = approx(time, tasa, n=n())$y)
 
 
 # Salvar proyeccion

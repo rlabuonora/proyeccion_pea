@@ -1,3 +1,11 @@
+
+
+source(here::here('R', '01-importar_tasas_por_edad.R'))
+source(here::here('R', '06-proyeccion_tasa_modelo.R'))
+source(here::here('R', '07-vis-proyeccion-tasa-modelo.R'))
+
+
+
 # un df con sexo, tramo, year y tasas
 forecast_tasa <- readRDS(here::here('data', 'forecast_tasas_modelo.rds'))
 
@@ -78,7 +86,7 @@ brecha %>%
        y="",
        x="Año",
        caption="La diferencia entre tasas de actividad Masculina y Femenina")
-  
+
 ggsave(here::here('output', 'proyecciones', 'proyeccion_pea_cierre_brecha.png'))
 
 # Salvar con totales
@@ -98,7 +106,7 @@ pea_proyectada %>%
   geom_line(aes(linetype=proyeccion)) +
   labs(title="PEA Total", x="Año") + 
   guides(linetype=FALSE)
-  
+
 ggsave(here::here('output', 'proyecciones', 'proyeccion_pea_proyectada.png'))
 
 
